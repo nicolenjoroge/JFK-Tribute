@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>In Loving Memory</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/style.css">
+</head>
+<body>
+
+<div id="adminBar" class="admin-bar" style="display:none;">Admin mode — you can edit the story, photo and gallery</div>
+
+<div id="authBar" class="auth-bar">
+  <div class="wrap auth-bar-inner">
+    <span id="authStatus" class="auth-status"></span>
+    <button id="signInBtn" class="link-btn" onclick="togglePanel('signInPanel')">Admin sign in</button>
+    <button id="signOutBtn" class="link-btn" style="display:none;" onclick="signOut()">Sign out</button>
+  </div>
+  <div class="wrap">
+    <div class="edit-panel" id="signInPanel">
+      <label>Admin email</label>
+      <input id="inAuthEmail" type="email" placeholder="you@example.com">
+      <div class="edit-row">
+        <button class="btn" onclick="sendMagicLink()">Send magic link</button>
+        <button class="btn secondary" onclick="togglePanel('signInPanel')">Cancel</button>
+      </div>
+      <div class="form-status" id="authFormStatus"></div>
+    </div>
+  </div>
+</div>
+
+<header class="hero">
+  <div class="portrait-frame" id="portraitFrame">
+    <div class="portrait-placeholder" id="portraitPlaceholder">Add a portrait photo</div>
+    <img id="portraitImg" style="display:none;" alt="Portrait">
+  </div>
+  <h1 id="nameHeading">Their Name</h1>
+  <div class="dates" id="datesLine">— · —</div>
+  <div class="tagline" id="taglineLine" style="display:none;"></div>
+
+  <div id="heroEditBtn" style="display:none;">
+    <button class="edit-btn" onclick="togglePanel('heroPanel')">✎ Edit name, dates &amp; photo</button>
+    <div class="edit-panel" id="heroPanel">
+      <label>Full name</label>
+      <input id="inName" placeholder="e.g. Margaret &quot;Peggy&quot; Anne Carter">
+      <label>Dates (as you'd like them shown)</label>
+      <input id="inDates" placeholder="e.g. March 4, 1948 – September 2, 2026">
+      <label>Short tagline (optional)</label>
+      <input id="inTagline" placeholder="e.g. Mother, gardener, storyteller">
+      <label>Portrait photo</label>
+      <input id="inPortraitFile" type="file" accept="image/*">
+      <div class="form-status" id="portraitUploadStatus"></div>
+      <div class="edit-row">
+        <button class="btn" onclick="saveHero()">Save</button>
+        <button class="btn secondary" onclick="togglePanel('heroPanel')">Cancel</button>
+      </div>
+    </div>
+  </div>
+</header>
+
+<section class="block">
+  <h2 class="section-title">Their Story</h2>
+  <div class="wrap">
+    <div class="story placeholder" id="storyText" data-placeholder="Their story will appear here."></div>
+    <div id="storyEditBtn" style="display:none; text-align:center;">
+      <button class="edit-btn" onclick="togglePanel('storyPanel')">✎ Edit story</button>
+      <div class="edit-panel" id="storyPanel" style="text-align:left;">
+        <label>Tell their story — who they were, what they loved, the moments worth remembering</label>
+        <textarea id="inStory" placeholder="Write freely here..."></textarea>
+        <div class="edit-row">
+          <button class="btn" onclick="saveStory()">Save</button>
+          <button class="btn secondary" onclick="togglePanel('storyPanel')">Cancel</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="block">
+  <h2 class="section-title">Photos</h2>
+  <div class="wrap">
+    <div class="gallery" id="galleryGrid"></div>
+    <div class="gallery-empty" id="galleryEmpty" style="display:none;">No photos yet.</div>
+    <div id="galleryAddWrap" style="display:none; text-align:center; margin-top:14px;">
+      <button class="edit-btn" onclick="togglePanel('galleryPanel')">✎ Add a photo</button>
+      <div class="edit-panel" id="galleryPanel">
+        <label>Photo file</label>
+        <input id="inPhotoFile" type="file" accept="image/*">
+        <label>Caption (optional)</label>
+        <input id="inPhotoCaption" placeholder="e.g. Summer 1994, at the lake house">
+        <div class="edit-row">
+          <button class="btn" id="addPhotoBtn" onclick="addPhoto()">Add photo</button>
+          <button class="btn secondary" onclick="togglePanel('galleryPanel')">Cancel</button>
+        </div>
+        <div class="form-status" id="photoUploadStatus"></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="block">
+  <h2 class="section-title">Tributes &amp; Condolences</h2>
+  <div class="wrap">
+    <div class="tribute-form">
+      <input id="inTributeName" placeholder="Your name" maxlength="60">
+      <textarea id="inTributeMsg" placeholder="Share a memory, a message of condolence, or how they touched your life..." maxlength="2000"></textarea>
+      <button id="submitTributeBtn" onclick="submitTribute()">Post tribute</button>
+      <div class="form-status" id="tributeStatus"></div>
+    </div>
+    <div class="tribute-list" id="tributeList"></div>
+    <div class="tribute-empty" id="tributeEmpty" style="display:none;">Be the first to leave a tribute.</div>
+  </div>
+</section>
+
+<div class="footer-note">Made with care, in loving memory.</div>
+<div class="toast" id="toast"></div>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.js"></script>
+<script src="/app.js"></script>
+</body>
+</html>
