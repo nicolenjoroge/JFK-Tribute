@@ -165,7 +165,7 @@ app.post('/api/tributes', async (req, res) => {
   let { name, message } = req.body || {};
   message = (message || '').toString().trim();
   if (!message) return res.status(400).json({ error: 'message is required' });
-  if (message.length > 2000) return res.status(400).json({ error: 'message is too long' });
+  if (message.length > 8000) return res.status(400).json({ error: 'message is too long' });
   name = (name || '').toString().trim().slice(0, 60) || 'Anonymous';
 
   const { data, error } = await supabase
